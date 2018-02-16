@@ -17,7 +17,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-9">
       <table class="table" [mfData] = "bookList | dataFilter: filterQuery"
-             #mf ="mfDataTable" [mfRowsOnPage] = "rowsOnPage" [(mfSortBy)] = "sortBy" [(mfSortOrder)] = "sortOrder">
+             #mf ="mfDataTable" [mfRowsOnPage] = "rowsOnPage" [mfSortBy] = "sortBy" [mfSortOrder] = "sortOrder">
         <thead>
           <th colspan="5">
             <div class="row">

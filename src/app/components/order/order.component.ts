@@ -43,6 +43,7 @@ export class OrderComponent implements OnInit {
   public selectedTab: number;
   public shippingMethod: string;
   public order: Order= new Order();
+  public missingRequaredField: boolean;
   constructor(
     private router: Router,
     private  cartService: CartService,

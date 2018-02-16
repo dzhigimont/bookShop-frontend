@@ -3,11 +3,6 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
-    "build": "ng build --prod",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
     "heroku-prebuild": "npm install -g http-server typings",
     "heroku-postbuild": "ng build --prod",
     "start": "http-server dist/"

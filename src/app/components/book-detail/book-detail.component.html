@@ -1,0 +1,69 @@
+<div class="container"  >
+  <div class="row " >
+    <div class="col-sm-8 headline-pagination section-headline cursor-pointer" >
+      <h2 ><span class="">Book Detail</span></h2>
+    </div>
+    <div class="col-sm-4 image-logo mx-0 mr-0">
+      <img src="../../../assets/image/logo.png" class="img-fluid" >
+    </div>
+    <div class="col-sm-11 image-wood" >
+      <img src="../../../assets/image/wood.png" class="img-fluid" >
+    </div>
+    <div class="col-sm-11 line-position"  >
+      <hr class="fat-line"/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="row" style="margin-top: 120px">
+      <div class="col-sm-3">
+      <a routerLink="/bookList">Back to book List</a>
+      <br>
+      <img class="img-fluid" src="{{serverPath}}/image/book/{{book.id}}.png">
+      </div>
+      <div class="col-sm-9">
+        <h3><span *ngIf="addBookSuccess" style="color: forestgreen">
+          <mat-icon>check</mat-icon>Added to cart.
+        </span></h3>
+        <h3><span *ngIf = "notEnoughStock" style="color:red">Sorry, only<span>{{book.inStockNumber}}</span> In Stock</span></h3>
+        <h3>{{book.title}}</h3>
+        <div class="row">
+          <div class="col-sm-5">
+            <h5><strong>Author: </strong><span>{{book.author}}</span></h5>
+            <p><strong>Publisher: </strong><span>{{book.publisher}}</span></p>
+            <p><strong>Publication Date: </strong><span>{{book.publicationDate}}</span></p>
+            <p><strong>Language: </strong><span>{{book.language}}</span></p>
+            <p><strong>Category: </strong><span>{{book.category}}</span></p>
+            <p><strong><span>{{book.format}}</span>: </strong><span>{{book.numberOfPage}}</span> pages</p>
+            <p><strong>ISBN: </strong><span>{{book.isbn}}</span></p>
+            <p><strong>Sipping Weight: </strong><span>{{book.shippingWeight}}</span> gram</p>
+          </div>
+          <div class="col-sm-7">
+            <div class="card" style="border-width: 5px; margin-top: 20px">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                  <h4>Our Price: <span style="color: #db3208">$<span>{{book.ourPrice | number: '1.2-2'}}</span></span></h4>
+                  <p>List Price: <span style="text-decoration: line-through">$<span>{{book.listPrice | number: '1.2-2'}}</span></span></p>
+                  <p>You Save: $<span>{{book.listPrice-book.ourPrice | number: '1.2-2'}}</span></p>
+                  <span>Qty: </span>
+                  <select [(ngModel)]="qty" class="browser-default" style="width: 50px; display: inline">
+                    <option *ngFor="let x of numberList" [ngValue]="x">{{x}}</option>
+                  </select>
+                  </div>
+                  <div class="col-sm-6">
+                    <h4 *ngIf="book.inStockNumber>10" style="color:green;"> In Stock</h4>
+                    <h4 *ngIf="book.inStockNumber<10 && book.inStockNumber>0" style="color:green;">Only <span>{{book.inStockNumber}}</span>In Stock</h4>
+                    <h4 *ngIf="book.inStockNumber==0" style="color:darkred;">Only <span>{{book.inStockNumber}}</span>Unavailable</h4>
+                    <button mat-raised-button [disabled]="book.inStockNumber==0" (click)="onAddToCart()" class="mat-primary">Add to Cart</button>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <p>{{book.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>

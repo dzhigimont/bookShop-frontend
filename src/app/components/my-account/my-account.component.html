@@ -1,0 +1,150 @@
+<div class="container" >
+  <div class="row " >
+    <div class="col-sm-8 headline-pagination section-headline cursor-pointer" >
+      <h2 ><span class="">My account</span></h2>
+    </div>
+    <div class="col-sm-4 image-logo mx-0 mr-0">
+      <img src="../../../assets/image/logo.png" class="img-fluid" >
+    </div>
+    <div class="col-sm-11 image-wood" >
+      <img src="../../../assets/image/wood.png" class="img-fluid" >
+    </div>
+    <div class="col-sm-11 line-position"  >
+      <hr class="fat-line"/>
+    </div>
+    <div class="col-sm-12 line-position" >
+      <hr class="slim-line"/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-9 mt-5" >
+      <div class="card">
+        <div class="card-body" >
+          <mat-tab-group>
+            <mat-tab label="Login">
+              <div class="mt-5">
+                <div class="error" *ngIf="loginError" >
+                  Incorrect username or password
+                </div>
+                  <form (ngSubmit) = "onLogin()" #login="ngForm">
+                    <div class="form-group ml-1 mr-2">
+                      <label for="username" >Username</label>
+                      <input [(ngModel)]="credential.username" type="text" class="form-control mx-1" id="username"
+                             name="username" placeholder="Enter Username"  required minlength="4" maxlength="25" #nameForLogin="ngModel" [pattern]="usernamePattern">
+                      <div *ngIf="nameForLogin.invalid && (nameForLogin.dirty || nameForLogin.touched)"
+                           class="alert alert-danger">
+                        <div *ngIf="nameForLogin.errors.required">
+                          Username is required.
+                        </div>
+                        <div *ngIf="nameForLogin.errors.minlength">
+                          Username must be at least 4 character long!
+                        </div>
+                        <div *ngIf="nameForLogin.errors.pattern">
+                          <div>Username must starts with letters</div>
+                         <div>Username can contain letters (a-z), numbers (0-9), dashes (-), underscores (_)</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group ml-1 mr-2">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control mx-1" id="password" name="password"
+                             placeholder="Enter password" [(ngModel)]="credential.password" required minlength="8" #passwordForLogin="ngModel" [pattern]="passwordPattern">
+                      <div *ngIf="passwordForLogin.invalid && (passwordForLogin.dirty || passwordForLogin.touched)"
+                           class="alert alert-danger">
+                        <div *ngIf="passwordForLogin.errors.required">
+                         Password is required.
+                        </div>
+                        <div *ngIf="passwordForLogin.errors.minlength">
+                          Password must be at least 8 character long!
+                        </div>
+                        <div *ngIf="passwordForLogin.errors.pattern">
+                          Password can contain only letters (a-z) and numbers (0-9)!
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="!login.form.valid">Login</button>
+                  </form>
+              </div>
+            </mat-tab>
+            <mat-tab label="New Account">
+              <div class="mt-5">
+                <div class="alert alert-info" *ngIf="emailSent" >
+                  An email has been sent to the email address you just registered.
+                  Please validate your email address and update your password info.
+                </div>
+                <form (ngSubmit) = "onNewAccount()" #newAccount="ngForm">
+                  <div class="form-group mx-1">
+                    <label for="newUsername" >Username</label>
+                    &nbsp;<span *ngIf="usernameExist" class="error">Username already exist. Choose a different one.</span>
+                    <input [(ngModel)]="username" type="text" class="form-control" id="newUsername"
+                           name="username" placeholder="Enter Username"  required minlength="4" maxlength="25" #name="ngModel" [pattern]="usernamePattern">
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="name.errors.required">
+                        Username is required.
+                      </div>
+                      <div *ngIf="name.errors.minlength">
+                        Username must be at least 4 character long!
+                      </div>
+                      <div *ngIf="name.errors.pattern">
+                        <div>Username must starts with letters</div>
+                        <div>Username can contain letters (a-z), numbers (0-9), dashes (-), underscores (_)</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group mx-1">
+                    <label for="email">Email</label>
+                    &nbsp;<span *ngIf="emailExist" class="error">This email address has already been registered. Choose a different one.</span>
+                    <input type="email" class="form-control" id="email" name="email" #userEmail="ngModel"
+                           placeholder="Please enter email" [(ngModel)]="email" required [pattern]="emailPattern">
+                    <p style="color: #828282">A valid e-mail address. All e-mails from the system will be sent to this address</p>
+                    <div *ngIf="userEmail.invalid && (userEmail.dirty || userEmail.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="userEmail.errors.required">
+                        Email is required.
+                      </div>
+                      <div *ngIf="userEmail.errors.pattern">
+                        Email not valid. Please enter valid email.
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary" [disabled]="!newAccount.form.valid">Create New Account</button>
+                </form>
+              </div>
+            </mat-tab>
+            <mat-tab label="Forget Password">
+              <div class="mt-5">
+                <div class="alert alert-info" *ngIf="emailNotExist">
+                  Email doesn't exist.
+                </div>
+                <div class="alert alert-success" *ngIf="forgetPasswordEmailSent">
+                  Email sent.
+                </div>
+                <form (ngSubmit) = "onForgetPassword()" #fogetPassword="ngForm">
+                  <div class="form-group mx-1">
+                    <label for="recoverEmail">Email</label>
+                    <input type="email" class="form-control" id="recoverEmail" name="recoverEmail"  placeholder="Please enter email"
+                           [(ngModel)]="recoverEmail" required #forgetEmail="ngModel" [pattern]="emailPattern">
+                    <p style="color: #828282">Enter your registered email address</p>
+                    <div *ngIf="forgetEmail.invalid && (forgetEmail.dirty || forgetEmail.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="forgetEmail.errors.required">
+                        Email is required.
+                      </div>
+                      <div *ngIf="forgetEmail.errors.pattern">
+                        Email not valid. Please enter valid email.
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" [disabled]="!fogetPassword.form.valid">Submit</button>
+                </form>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

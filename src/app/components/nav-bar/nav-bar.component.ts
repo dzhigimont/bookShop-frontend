@@ -11,11 +11,11 @@ import {Book} from '../../models/book';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  private keyword: string;
-  private loggedIn: boolean;
-  private cartItemNumber: number;
-  private cartUpdated: Subscription;
-  private bookList: Book[] = [];
+  public keyword: string;
+  public loggedIn: boolean;
+  public cartItemNumber: number;
+  public cartUpdated: Subscription;
+  public bookList: Book[] = [];
 
   constructor(
     private loginService: LoginService,

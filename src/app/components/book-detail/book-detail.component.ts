@@ -13,15 +13,15 @@ import {CartItem} from '../../models/cart-item';
   styleUrls: ['./book-detail.component.css']
 })
 export class BookDetailComponent implements OnInit {
-  private bookId: number;
-  private book: Book = new Book();
-  private serverPath = AppConst.serverPath;
-  private numberList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  private qty: number;
-  private addBookSuccess= false;
-  private notEnoughStock= false;
-  private cartItemNumber: number;
-  private cartItemList: CartItem[] = [];
+  public bookId: number;
+  public book: Book = new Book();
+  public serverPath = AppConst.serverPath;
+  public numberList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  public qty: number;
+  public addBookSuccess= false;
+  public notEnoughStock= false;
+  public cartItemNumber: number;
+  public cartItemList: CartItem[] = [];
   constructor(
     private bookService: BookService,
     private router: Router,

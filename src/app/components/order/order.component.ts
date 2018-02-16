@@ -21,28 +21,28 @@ import {Payment} from '../../models/payment';
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent implements OnInit {
-  private serverPath = AppConst.serverPath;
-  private selectedBook: Book;
+  public serverPath = AppConst.serverPath;
+  public selectedBook: Book;
 
-  private userShipping: UserShipping = new UserShipping();
-  private userPayment: UserPayment = new UserPayment();
-  private userBilling: UserBilling = new UserBilling();
-  private shoppingCart: ShoppingCart = new ShoppingCart();
+  public userShipping: UserShipping = new UserShipping();
+  public userPayment: UserPayment = new UserPayment();
+  public userBilling: UserBilling = new UserBilling();
+  public shoppingCart: ShoppingCart = new ShoppingCart();
 
-  private shippingAddress: ShippingAddress = new ShippingAddress();
-  private billingAddress: BillingAddress = new BillingAddress();
-  private payment: Payment = new Payment();
+  public shippingAddress: ShippingAddress = new ShippingAddress();
+  public billingAddress: BillingAddress = new BillingAddress();
+  public payment: Payment = new Payment();
 
-  private cartItemList: CartItem[] = [];
-  private cartItemNumber: number;
-  private userShippingList: UserShipping[] = [];
-  private emptyShippingList: boolean;
-  private userPaymentList: UserPayment[] = [];
-  private emptyPaymentList: boolean;
-  private stateList: string[]= [];
-  private selectedTab: number;
-  private shippingMethod: string;
-  private order: Order= new Order();
+  public cartItemList: CartItem[] = [];
+  public cartItemNumber: number;
+  public userShippingList: UserShipping[] = [];
+  public emptyShippingList: boolean;
+  public userPaymentList: UserPayment[] = [];
+  public emptyPaymentList: boolean;
+  public stateList: string[]= [];
+  public selectedTab: number;
+  public shippingMethod: string;
+  public order: Order= new Order();
   constructor(
     private router: Router,
     private  cartService: CartService,

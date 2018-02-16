@@ -9,22 +9,22 @@ import {AppConst} from '../../constants/app-const';
   styleUrls: ['./my-account.component.css']
 })
 export class MyAccountComponent implements OnInit {
-  private serverPath = AppConst.serverPath;
-  private emailPattern = AppConst.emailPattern;
-  private usernamePattern = AppConst.usernamePattern;
-  private  passwordPattern = AppConst. passwordPattern;
-  private loginError = false;
-  private loggedIn: boolean;
-  private credential = {'username': '', 'password': ''};
+  public serverPath = AppConst.serverPath;
+  public emailPattern = AppConst.emailPattern;
+  public usernamePattern = AppConst.usernamePattern;
+  public  passwordPattern = AppConst. passwordPattern;
+  public loginError = false;
+  public loggedIn: boolean;
+  public credential = {'username': '', 'password': ''};
 
-  private emailSent = false;
-  private usernameExist: boolean;
-  private emailExist: boolean;
-  private username: string;
-  private email: string;
-  private emailNotExist = false;
-  private forgetPasswordEmailSent: boolean;
-  private recoverEmail: string;
+  public emailSent = false;
+  public usernameExist: boolean;
+  public emailExist: boolean;
+  public username: string;
+  public email: string;
+  public emailNotExist = false;
+  public forgetPasswordEmailSent: boolean;
+  public recoverEmail: string;
 
   constructor(
     private router: Router,

@@ -13,9 +13,9 @@ import {AppConst} from '../../constants/app-const';
 export class BookListComponent implements OnInit {
   public filterQuery = '';
   public rowsOnPage = 5;
-  private selectedBook: Book;
-  private bookList: Book[];
-  private serverPath= AppConst.serverPath;
+  public selectedBook: Book;
+  public bookList: Book[];
+  public serverPath= AppConst.serverPath;
 
   constructor(
     private bookService: BookService,

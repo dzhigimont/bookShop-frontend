@@ -13,6 +13,8 @@ import {AppConst} from '../../constants/app-const';
 export class BookListComponent implements OnInit {
   public filterQuery = '';
   public rowsOnPage = 5;
+  public sortBy = 'title';
+  public sortOrder = 'title';
   public selectedBook: Book;
   public bookList: Book[];
   public serverPath= AppConst.serverPath;

@@ -43,7 +43,7 @@ export class OrderComponent implements OnInit {
   public order: Order= new Order();
   public missingRequaredField: boolean;
   public cartEmpty = false;
-  private dateFetched= false;
+  public dateFetched= false;
 
   constructor(
     private router: Router,

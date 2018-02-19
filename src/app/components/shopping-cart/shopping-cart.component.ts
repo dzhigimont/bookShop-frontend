@@ -5,6 +5,8 @@ import {ShoppingCart} from '../../models/shopping-cart';
 import {CartItem} from '../../models/cart-item';
 import {CartService} from '../../services/cart.service';
 import {Router} from '@angular/router';
+import {LoginService} from '../../services/login.service';
+import {CheckSessionService} from '../../services/check-session.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -25,6 +27,8 @@ export class ShoppingCartComponent implements OnInit {
   constructor(
     private router: Router,
     private cartService: CartService,
+    private checkSessionService: CheckSessionService,
+    private loginService: LoginService
   ) { }
 
   onSelect(book: Book) {
@@ -58,6 +62,7 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit() {
     this.getCartItemList();
     this.getShoppingCart();
+    this.checkSession();
   }
 
   getCartItemList() {
@@ -65,7 +70,7 @@ export class ShoppingCartComponent implements OnInit {
       res => {
        this.cartItemList = res;
        this.cartItemNumber = this.cartItemList.length;
-        this.cartService.updateCount(this.cartItemNumber);
+        this.cartService.numberOfCartItem.next(this.cartItemNumber);
         this.dateFetched = true;
         if (this.cartItemNumber > 0) {
           this.cartEmpty = false;
@@ -104,4 +109,18 @@ export class ShoppingCartComponent implements OnInit {
       // this.router.navigate(['/order']);
     }
   }
+  checkSession() {
+    this.loginService.checkSession().subscribe(
+      res => {
+        console.log(res);
+        this.checkSessionService.IsUserLoggedIn.next(true);
+      },
+      error => {
+        console.log(error);
+        this.checkSessionService.IsUserLoggedIn.next(false);
+        this.router.navigate(['/myAccount']);
+      }
+    );
+  }
+
 }

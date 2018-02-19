@@ -3,6 +3,8 @@ import { Router} from '@angular/router';
 import {LoginService} from '../../services/login.service';
 import {UserService} from '../../services/user.service';
 import {AppConst} from '../../constants/app-const';
+import {CheckSessionService} from '../../services/check-session.service';
+import {CartService} from '../../services/cart.service';
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
@@ -14,7 +16,6 @@ export class MyAccountComponent implements OnInit {
   public usernamePattern = AppConst.usernamePattern;
   public  passwordPattern = AppConst. passwordPattern;
   public loginError = false;
-  public loggedIn: boolean;
   public credential = {'username': '', 'password': ''};
 
   public emailSent = false;
@@ -25,11 +26,14 @@ export class MyAccountComponent implements OnInit {
   public emailNotExist = false;
   public forgetPasswordEmailSent: boolean;
   public recoverEmail: string;
+  public cartItemNumber: number;
 
   constructor(
     private router: Router,
     private loginService: LoginService,
     private userService: UserService,
+    private checkSessionService: CheckSessionService,
+    private cartService: CartService
   ) { }
 
   onLogin() {
@@ -37,17 +41,15 @@ export class MyAccountComponent implements OnInit {
       res => {
         console.log(res);
         localStorage.setItem('xAuthToken', res.token );
-        this.loggedIn = true;
-//         this.router.navigate(['/home']);
-//         location.reload();
-        setTimeout(function(){
-          window.location.reload();
-        });
+        this.checkSessionService.IsUserLoggedIn.next(true);
+        this.cartService.numberOfCartItem.next(this.cartItemNumber);
+        this.router.navigate(['/home']);
       },
       error => {
         console.log(error);
-        this.loggedIn = false;
+        this.checkSessionService.IsUserLoggedIn.next(false);
         this.loginError = true;
+        this.router.navigate(['/myAccount']);
       }
     );
   }
@@ -93,21 +95,19 @@ export class MyAccountComponent implements OnInit {
       }
     );
   }
-  ngOnInit() {
-    this.checkSession();
-  }
-
-  checkSession() {
-    this.loginService.checkSession().subscribe(
+  getCartItemNumber() {
+    this.cartService.getCartItemList().subscribe(
       res => {
-        console.log(res);
-        this.loggedIn = true;
+        this.cartItemNumber = res.length;
       },
       error => {
-        console.log(error);
-        this.loggedIn = false;
+        console.log(error.error);
       }
     );
   }
+  ngOnInit() {
+    this.getCartItemNumber();
+  }
+
 
 }

@@ -36,9 +36,9 @@ export class BookDetailComponent implements OnInit {
        console.log(res);
        this.addBookSuccess = true;
        if (this.isBookInCart()) {
-         this.cartService.updateCount(this.cartItemNumber );
+         this.cartService.numberOfCartItem.next(this.cartItemNumber);
        }else {
-         this.cartService.updateCount(this.cartItemNumber + 1);
+         this.cartService.numberOfCartItem.next(this.cartItemNumber + 1);
        }
       },
       error => {
@@ -48,6 +48,7 @@ export class BookDetailComponent implements OnInit {
     );
   }
   ngOnInit() {
+    this.getCartItemNumber();
     this.route.params.forEach((params: Params) => {
       this.bookId = Number.parseInt(params['id']);
     });
@@ -62,7 +63,7 @@ export class BookDetailComponent implements OnInit {
       }
     );
     this.qty = 1;
-   this.getCartItemNumber();
+
   }
 
   getCartItemNumber() {

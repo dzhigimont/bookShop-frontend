@@ -4,6 +4,8 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {CheckoutService} from '../../services/checkout.service'
 import {Order} from '../../models/order';
 import {CartItem} from '../../models/cart-item';
+import {CheckSessionService} from '../../services/check-session.service';
+import {LoginService} from '../../services/login.service';
 
 @Component({
   selector: 'app-order-summary',
@@ -18,10 +20,13 @@ export class OrderSummaryComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private checkSessionService: CheckSessionService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
+    this.checkSession();
     this.route.queryParams.subscribe(params => {
       this.order = JSON.parse(params['order']);
       const deliveryDate = new Date();
@@ -35,6 +40,19 @@ export class OrderSummaryComponent implements OnInit {
         deliveryDate.getFullYear() + '/' + deliveryDate.getMonth() + '/' + deliveryDate.getDate();
       this.cartItemList = this.order.cartItemList;
     });
+  }
+  checkSession() {
+    this.loginService.checkSession().subscribe(
+      res => {
+        console.log(res);
+        this.checkSessionService.IsUserLoggedIn.next(true);
+      },
+      error => {
+        console.log(error);
+        this.checkSessionService.IsUserLoggedIn.next(false);
+        this.router.navigate(['/myAccount']);
+      }
+    );
   }
 
 }

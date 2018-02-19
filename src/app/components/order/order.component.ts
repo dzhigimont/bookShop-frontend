@@ -15,6 +15,8 @@ import {UserBilling} from '../../models/user-billing';
 import {ShippingAddress} from '../../models/shipping-address';
 import {BillingAddress} from '../../models/billing-address';
 import {Payment} from '../../models/payment';
+import {CheckSessionService} from '../../services/check-session.service';
+import {LoginService} from '../../services/login.service';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -50,10 +52,13 @@ export class OrderComponent implements OnInit {
     private  cartService: CartService,
     private shippingService: ShippingService,
     private paymentService: PaymentService,
-    private checkoutService: CheckoutService
+    private checkoutService: CheckoutService,
+    private checkSessionService: CheckSessionService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
+    this.checkSession();
     for (const s in AppConst.usStates) {
       this.stateList.push(s);
     }
@@ -207,6 +212,19 @@ export class OrderComponent implements OnInit {
       error => {
         this.dateFetched = false;
         console.log(error);
+      }
+    );
+  }
+  checkSession() {
+    this.loginService.checkSession().subscribe(
+      res => {
+        console.log(res);
+        this.checkSessionService.IsUserLoggedIn.next(true);
+      },
+      error => {
+        console.log(error);
+        this.checkSessionService.IsUserLoggedIn.next(false);
+        this.router.navigate(['/myAccount']);
       }
     );
   }

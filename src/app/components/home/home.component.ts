@@ -50,9 +50,9 @@ export class HomeComponent implements OnInit {
       res => {
         console.log(res);
         if (this.isBookInCart(book)) {
-          this.cartService.updateCount(this.cartItemNumber );
+          this.cartService.numberOfCartItem.next(this.cartItemNumber);
         }else {
-          this.cartService.updateCount(this.cartItemNumber + 1);
+          this.cartService.numberOfCartItem.next(this.cartItemNumber + 1);
         }
       },
       error => {

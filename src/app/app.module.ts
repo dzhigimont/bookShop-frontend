@@ -28,6 +28,7 @@ import {OrderService} from './services/order.service';
 import {CheckoutService} from './services/checkout.service';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import {CheckSessionService} from './services/check-session.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
   ],
   providers: [LoginService, UserService, PaymentService,
     ShippingService, BookService, CartService,
-    OrderService, CheckoutService,
+    OrderService, CheckoutService, CheckSessionService,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

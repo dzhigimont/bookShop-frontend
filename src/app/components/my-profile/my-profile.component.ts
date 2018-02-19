@@ -12,6 +12,7 @@ import {UserShipping} from '../../models/user-shipping';
 import {ShippingService} from '../../services/shipping.service';
 import {Order} from '../../models/order';
 import {OrderService} from '../../services/order.service';
+import {CheckSessionService} from '../../services/check-session.service';
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
@@ -55,7 +56,8 @@ export class MyProfileComponent implements OnInit {
     private router: Router,
     private paymentService: PaymentService,
     private shippingService: ShippingService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private checkSessionService: CheckSessionService
   ) { }
 
   ngOnInit() {
@@ -95,7 +97,19 @@ export class MyProfileComponent implements OnInit {
       }
     );
   }
-
+  checkSession() {
+    this.loginService.checkSession().subscribe(
+      res => {
+        console.log(res);
+        this.checkSessionService.IsUserLoggedIn.next(true);
+      },
+      error => {
+        console.log(error);
+        this.checkSessionService.IsUserLoggedIn.next(false);
+        this.router.navigate(['/myAccount']);
+      }
+    );
+  }
   getCurrentUser() {
     this.userService.getCurrentUser().subscribe(
       res => {
@@ -139,21 +153,6 @@ export class MyProfileComponent implements OnInit {
     this.order = order;
     this.displayOrderDetail = true;
   }
-  checkSession() {
-    this.loginService.checkSession().subscribe(
-      res => {
-        console.log(res);
-        this.loggedIn = true;
-      },
-      error => {
-        console.log(error);
-        this.loggedIn = false;
-        console.log('inactive session')
-        this.router.navigate(['/myAccount']);
-      }
-    );
-  }
-
   onNewShipping(form: NgForm) {
     this.shippingService.newShipping(this.userShipping).subscribe(
       res => {

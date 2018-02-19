@@ -5,6 +5,7 @@ import {CartService} from '../../services/cart.service';
 import {Subscription} from 'rxjs/Subscription';
 import {BookService} from '../../services/book.service';
 import {Book} from '../../models/book';
+import {CheckSessionService} from '../../services/check-session.service';
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -14,15 +15,22 @@ export class NavBarComponent implements OnInit {
   public keyword: string;
   public loggedIn: boolean;
   public cartItemNumber: number;
-  public cartUpdated: Subscription;
   public bookList: Book[] = [];
 
   constructor(
     private loginService: LoginService,
     private router: Router,
     private cartService: CartService,
-    private bookService: BookService
-  ) { }
+    private bookService: BookService,
+    private checkSessionService: CheckSessionService
+  ) {
+    this.checkSessionService.IsUserLoggedIn.subscribe( value => {
+      this.loggedIn = value;
+    });
+    this.cartService.numberOfCartItem.subscribe( value => {
+      this.cartItemNumber = value;
+    });
+  }
   onSearchByTitle() {
     this.bookService.searchBook(this.keyword).subscribe(
       res => {
@@ -43,17 +51,13 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
     this.checkSession();
     this.getCartItemNumber();
-    this.cartUpdated = this.cartService.CartItemCount
-      .subscribe((count: number) => {
-        this.cartItemNumber = count;
-        console.log(this.cartItemNumber);
-      });
   }
   logout() {
     this.loginService.logOut().subscribe(
       res => {
         console.log(res);
-        location.reload();
+        this.checkSessionService.IsUserLoggedIn.next(false);
+        this.router.navigate(['/home']);
       },
       error => {
         console.log(error);
@@ -64,11 +68,11 @@ export class NavBarComponent implements OnInit {
     this.loginService.checkSession().subscribe(
       res => {
         console.log(res);
-        this.loggedIn = true;
+        this.checkSessionService.IsUserLoggedIn.next(true);
       },
       error => {
         console.log(error);
-        this.loggedIn = false;
+        this.checkSessionService.IsUserLoggedIn.next(false);
       }
     );
   }
@@ -76,7 +80,7 @@ export class NavBarComponent implements OnInit {
   getCartItemNumber() {
     this.cartService.getCartItemList().subscribe(
       res => {
-        this.cartItemNumber = res.length;
+        this.checkSessionService.IsUserLoggedIn.next(res.length);
       },
       error => {
         console.log(error.error);

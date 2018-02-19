@@ -7,15 +7,8 @@ import {Subject} from 'rxjs/Subject';
 export class CartService {
   private serverPath = AppConst.serverPath;
   private prodCount = 0;
-  prodCountCountChange: Subject<number> = new Subject<number>();
-  public CartItemCount = this.prodCountCountChange.asObservable();
-  constructor(
-    private httpClient: HttpClient
-  ) {}
-  updateCount(count: number) {
-    this.prodCount = count;
-    this.prodCountCountChange.next(this.prodCount);
-  }
+  public numberOfCartItem: Subject<number> = new Subject<number>();
+  constructor(private httpClient: HttpClient) {}
   addItem(id: number, qty: number): Observable<any> {
     const url = this.serverPath + '/cart/add';
     const cartItemInfo = {

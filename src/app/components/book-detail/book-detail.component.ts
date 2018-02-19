@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Book} from '../../models/book';
-import {Params, ActivatedRoute, Router} from '@angular/router';
+import {Params, ActivatedRoute, Router, NavigationExtras} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {AppConst} from '../../constants/app-const';
 import {BookService} from '../../services/book.service';
@@ -22,6 +22,7 @@ export class BookDetailComponent implements OnInit {
   public notEnoughStock= false;
   public cartItemNumber: number;
   public cartItemList: CartItem[] = [];
+  public dateFetched = false;
   constructor(
     private bookService: BookService,
     private router: Router,
@@ -53,9 +54,11 @@ export class BookDetailComponent implements OnInit {
     this.bookService.getBook(this.bookId).subscribe(
       res => {
         this.book = res;
+        this.dateFetched = true;
     },
       error => {
        console.log(error);
+        this.dateFetched = false;
       }
     );
     this.qty = 1;
@@ -81,5 +84,7 @@ export class BookDetailComponent implements OnInit {
     }
     return false;
   }
+
+
 
 }

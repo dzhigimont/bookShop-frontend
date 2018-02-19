@@ -8,6 +8,7 @@ import {BookDetailComponent} from './components/book-detail/book-detail.componen
 import {ShoppingCartComponent} from './components/shopping-cart/shopping-cart.component';
 import {OrderComponent} from './components/order/order.component';
 import {OrderSummaryComponent} from './components/order-summary/order-summary.component';
+import {NotFoundComponent} from './components/not-found/not-found.component';
 const appRoutes: Routes = [
   {
     path: '',
@@ -31,7 +32,7 @@ const appRoutes: Routes = [
     component: BookListComponent
   },
   {
-    path: 'bookDetail/:id',
+    path: 'bookList/:id',
     component: BookDetailComponent
   },
   {
@@ -39,12 +40,20 @@ const appRoutes: Routes = [
     component: ShoppingCartComponent
   },
   {
-    path: 'checkout',
+    path: 'shoppingCart/checkout',
     component: OrderComponent
   },
   {
-    path: 'orderSummary',
+    path: 'shoppingCart/checkout/orderSummary',
     component: OrderSummaryComponent
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
   }
 ];
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

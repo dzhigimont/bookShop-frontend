@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatTabsModule, MatProgressSpinnerModule, MatIconModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatTabsModule, MatProgressSpinnerModule, MatIconModule, MatExpansionModule} from '@angular/material';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import {routing} from './app.routing';
@@ -27,6 +27,7 @@ import { OrderComponent } from './components/order/order.component';
 import {OrderService} from './services/order.service';
 import {CheckoutService} from './services/checkout.service';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
     BookDetailComponent,
     ShoppingCartComponent,
     OrderComponent,
-    OrderSummaryComponent
+    OrderSummaryComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,7 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
     DataTableModule,
     BrowserAnimationsModule,
     MatButtonModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatTabsModule, MatIconModule,
+    MatTabsModule, MatIconModule, MatExpansionModule,
     HttpClientModule,
     routing,
   ],

@@ -1,31 +1,37 @@
 <div class="container"  >
-  <div class="row " >
-    <div class="col-sm-8 headline-pagination section-headline cursor-pointer" >
-      <h2 ><span class="">Book List</span></h2>
+  <div class="row">
+    <div class="col-sm-12" >
+      <img src="../../../assets/image/book_list.png" class="img-fluid" >
     </div>
-    <div class="col-sm-4 image-logo mx-0 mr-0">
-      <img src="../../../assets/image/logo.png" class="img-fluid" >
+    <div class="col-sm-12" >
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ">
+          <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+          <li class="breadcrumb-item"><a aria-current="page">BookList</a></li>
+        </ol>
+      </nav>
     </div>
-    <div class="col-sm-11 image-wood" >
-      <img src="../../../assets/image/wood.png" class="img-fluid" >
-    </div>
-    <div class="col-sm-11 line-position"  >
-      <hr class="fat-line"/>
+  </div>
+  <div></div>
+  <div *ngIf="!dateFetched" >
+    <div class="row" >
+      <div class="col-md-2 mt-5 mx-auto">
+        <mat-spinner></mat-spinner>
+      </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-9">
+    <div class="col-md-10 mx-auto">
       <table class="table" [mfData] = "bookList | dataFilter: filterQuery"
-             #mf ="mfDataTable" [mfRowsOnPage] = "rowsOnPage" [mfSortBy] = "sortBy" [mfSortOrder] = "sortOrder">
+             #mf ="mfDataTable" [mfRowsOnPage] = "rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
         <thead>
           <th colspan="5">
             <div class="row">
-              <div class="col-md-9">
-                Filter by Description:
-                <input class="form-control" [(ngModel)]="filterQuery">
+              <div class="col-xl-6 col-sm-12">
+                <label for="filterQuery">Filter by Description:</label>
+                <input class="form-control" [(ngModel)]="filterQuery" id="filterQuery">
               </div>
-              <div class="col-md-3">
+              <div class="col-xl-2 col-sm-4">
                 <label class="lable-control">Rows on page</label>
                 <select class="form-control input-group-sm" [(ngModel)] = "rowsOnPage">
                   <option [ngValue] = "5">5</option>
@@ -33,37 +39,64 @@
                   <option [ngValue] = "15">15</option>
                 </select>
               </div>
+              <div class="col-xl-2 col-sm-4">
+                <label class="lable-control">Sort by</label>
+                <select class="form-control input-group-sm" name="sortBy" [(ngModel)] = "sortBy">
+                  <option value="" disabled>----</option>
+                  <option value="ourPrice">Price</option>
+                  <option value= "title">Title</option>
+                  <option value= "numberOfPage">Page</option>
+                </select>
+              </div>
+              <div class="col-xl-2 col-sm-4">
+                <label class="lable-control">Sort Order</label>
+                <select class="form-control input-group-sm" name="sortOrder" [(ngModel)] = "sortOrder">
+                  <option value="asc">min</option>
+                  <option value= "desc">max</option>
+                </select>
+              </div>
             </div>
           </th>
         </thead>
-        <tbody>
-        <tr *ngFor="let book of mf.data">
-          <div class="row" style="margin-top: 30px">
-            <div class="col-md-3">
-              <a>
-                <img class="img-fluid" src="{{serverPath}}/image/book/{{book.id}}.png">
-              </a>
-            </div>
-            <div class="col-md-9">
-              <h4 (click)="onSelect(book)" style="cursor: pointer">
-                {{book.title}}
-              </h4>
-            <span>{{book.publicationDate}}</span>
-            <p>{{book.author}}</p>
-            <a (click)="onSelect(book)" style="cursor: pointer; color: #99c2f3;"><span>{{book.format | uppercase}}</span></a>
-            <span>{{book.numberOfPage}}</span><span> pages</span>
-            <br/>
-            <a (click)="onSelect(book)"><span style="font-size: x-large; color: #db3208" >$<span>{{book.ourPrice | number: '1.2-2'}}</span></span></a>
-            <span style="text-decoration: line-through">$<span>{{book.listPrice | number : '1.2-2'}}</span></span>
-            <p>{{book.description | slice:0:500}}</p>
+        <tbody *ngIf="dateFetched" >
+        <tr *ngFor="let book of mf.data" >
+          <div class="card card-body  mt-3">
+            <div class="row">
+                <div class="col-12">
+                  <h4 class="mx-auto"  (click)="onSelect(book)" style="cursor: pointer">
+                    {{book.title}}
+                  </h4>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                  <a  (click)="onSelect(book)" style="cursor: pointer">
+                    <img class="img-fluid" src="{{serverPath}}/image/book/{{book.id}}.png">
+                  </a>
+                </div>
+                <div class="col-xl-9 col-lg-8 col-sm-6">
+                <span>{{book.publicationDate}}</span>
+                <p>{{book.author}}</p>
+                <a (click)="onSelect(book)" style="cursor: pointer; color: #99c2f3;"><span>{{book.format | uppercase}}</span></a>
+                <span>{{book.numberOfPage}}</span><span> pages</span>
+                <br/>
+                <a (click)="onSelect(book)"><span style="font-size: x-large; color: #db3208" >$<span>{{book.ourPrice | number: '1.2-2'}}</span></span></a>
+                <span style="text-decoration: line-through">$<span>{{book.listPrice | number : '1.2-2'}}</span></span>
+                    <div class="card card-body">
+                       <span [innerHTML]="cutBookDescription(book)" ></span>
+                      <button type="button" (click)="onSelect(book)" class="btn btn-light">Details</button>
+                    </div>
+                </div>
+                <div></div>
+                <div class="col-sm-12">
+                  <hr>
+                </div>
             </div>
           </div>
         </tr>
         </tbody>
         <tfoot>
-          <tr>
-            <td>
-              <mfBootstrapPaginator [rowsOnPageSet] = "[5,10,15]"></mfBootstrapPaginator>
+          <tr >
+            <td >
+              <mfBootstrapPaginator ></mfBootstrapPaginator>
             </td>
           </tr>
         </tfoot>

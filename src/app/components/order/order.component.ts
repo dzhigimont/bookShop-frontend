@@ -23,12 +23,10 @@ import {Payment} from '../../models/payment';
 export class OrderComponent implements OnInit {
   public serverPath = AppConst.serverPath;
   public selectedBook: Book;
-
   public userShipping: UserShipping = new UserShipping();
   public userPayment: UserPayment = new UserPayment();
   public userBilling: UserBilling = new UserBilling();
   public shoppingCart: ShoppingCart = new ShoppingCart();
-
   public shippingAddress: ShippingAddress = new ShippingAddress();
   public billingAddress: BillingAddress = new BillingAddress();
   public payment: Payment = new Payment();
@@ -44,6 +42,9 @@ export class OrderComponent implements OnInit {
   public shippingMethod: string;
   public order: Order= new Order();
   public missingRequaredField: boolean;
+  public cartEmpty = false;
+  private dateFetched= false;
+
   constructor(
     private router: Router,
     private  cartService: CartService,
@@ -64,7 +65,7 @@ export class OrderComponent implements OnInit {
   }
   onSelectedBook(book: Book) {
     this.selectedBook = book;
-    this.router.navigate(['/bookDetail', this.selectedBook.id]);
+    this.router.navigate(['/bookList/book', this.selectedBook.id]);
   }
   selectedChange(val: number) {
     this.selectedTab = val;
@@ -132,7 +133,7 @@ export class OrderComponent implements OnInit {
             'order': JSON.stringify(this.order)
           }
         };
-        this.router.navigate(['/orderSummary'], navigationExtras);
+        this.router.navigate(['/shoppingCart/orderSummary'], navigationExtras);
       },
       error => {
         console.log(error);
@@ -196,8 +197,15 @@ export class OrderComponent implements OnInit {
       res => {
         this.cartItemList = res;
         this.cartItemNumber = this.cartItemList.length;
+        if (this.cartItemNumber > 0) {
+          this.cartEmpty = false;
+        } else {
+          this.cartEmpty = true;
+        }
+        this.dateFetched = true;
       },
       error => {
+        this.dateFetched = false;
         console.log(error);
       }
     );

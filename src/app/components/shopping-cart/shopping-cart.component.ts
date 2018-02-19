@@ -20,6 +20,8 @@ export class ShoppingCartComponent implements OnInit {
   public cartItemUpdated: boolean;
   public emptyCart: boolean;
   public notEnoughStock: boolean;
+  public dateFetched = false;
+  public cartEmpty = false;
   constructor(
     private router: Router,
     private cartService: CartService,
@@ -64,9 +66,16 @@ export class ShoppingCartComponent implements OnInit {
        this.cartItemList = res;
        this.cartItemNumber = this.cartItemList.length;
         this.cartService.updateCount(this.cartItemNumber);
+        this.dateFetched = true;
+        if (this.cartItemNumber > 0) {
+          this.cartEmpty = false;
+        } else {
+          this.cartEmpty = true;
+        }
       },
       error => {
         console.log(error.error);
+        this.dateFetched = false;
       }
     );
   }

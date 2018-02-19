@@ -1,23 +1,50 @@
 <div class="container"  >
-  <div class="row " >
-    <div class="col-sm-8 headline-pagination section-headline cursor-pointer" >
-      <h2 ><span class="">Home</span></h2>
-    </div>
-    <div class="col-sm-4 image-logo mx-0 mr-0">
-      <img src="../../../assets/image/logo.png" class="img-fluid" >
-    </div>
-    <div class="col-sm-11 image-wood" >
-      <img src="../../../assets/image/wood.png" class="img-fluid" >
-    </div>
-    <div class="col-sm-11 line-position"  >
-    <hr class="fat-line"/>
-    </div>
-    <div class="col-sm-12 line-position" >
-      <hr class="slim-line"/>
+
+  <div class="row">
+    <div class="col-sm-12" >
+      <img src="../../../assets/image/home_finally.png" class="img-fluid" >
     </div>
   </div>
-  <div class="row ml-0" >
 
+  <div *ngIf="!dateFetched" >
+    <div class="row" >
+      <div class="col-md-2 mt-5 mx-auto">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="dateFetched" >
+    <div class="col-md-12">
+      <hr>
+      <div class="text-center" style="font-size: x-large"><strong>Our Best Books</strong></div>
+      <hr>
+    </div>
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-lg-3 col-sm-6 my-2" *ngFor="let book of fourRandomBooks">
+          <div class="card">
+            <div class="card-header">
+              <div><strong><span>{{book.author}}</span></strong>
+              </div>
+            </div>
+            <div class="card-body">
+              <a class="cursor-pointer" (click)="onSelect(book)">
+                <img src="{{serverPath}}/image/book/{{book.id}}.png" class="img-fluid" >
+              </a>
+            </div>
+            <div class="card-footer">
+              <div>Our Price: <span style="color: #db3208">$
+                <span >{{book.ourPrice}}</span> </span><span><button mat-icon-button (click)="onAddToCart(book)">
+                <mat-icon>add_shopping_cart</mat-icon></button></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div></div>
+  <div class="row" >
     <div class="col-sm-4 my-4 ">
       <div class="card">
         <div class="card-body ">
@@ -27,7 +54,6 @@
         </div>
     </div>
     </div>
-
     <div class="col-sm-4 my-4">
       <div class="card">
         <div class="card-body ">
@@ -37,7 +63,6 @@
         </div>
       </div>
     </div>
-
     <div class="col-sm-4 my-4">
       <div class="card">
         <div class="card-body ">
@@ -47,39 +72,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div>
-    <div class="home-headline my-0"><span style=" background: #333;">Featured Books</span></div>
-    <hr style="height: 2px;margin-top: -20px " />
-    <img src="../../../assets/image/shelf.png" class="img-fluid image-shelf" >
-  </div>
-
-  <div class="row ml-5 mr-2" style="margin-top: -180px;" >
-      <div class="col-sm-2">
-        <img src="../../../assets/image/book1.png" class="img-fluid" style="width: 70%" >
-      </div>
-
-      <div class="col-sm-2">
-        <img src="../../../assets/image/book1.png" class="img-fluid" style="width: 70%">
-      </div>
-
-      <div class="col-sm-2">
-        <img src="../../../assets/image/book1.png" class="img-fluid" style="width: 70%">
-      </div>
-
-      <div class="col-sm-2">
-        <img src="../../../assets/image/book1.png" class="img-fluid" style="width: 70%">
-      </div>
-
-      <div class="col-sm-2">
-        <img src="../../../assets/image/book1.png" class="img-fluid" style="width: 70%">
-      </div>
-
-      <div class="col-sm-2">
-        <img src="../../../assets/image/book1.png" class="img-fluid" style="width: 70%">
-      </div>
-
-
   </div>
 </div>

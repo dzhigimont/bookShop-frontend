@@ -26,7 +26,6 @@ export class MyAccountComponent implements OnInit {
   public emailNotExist = false;
   public forgetPasswordEmailSent: boolean;
   public recoverEmail: string;
-  public cartItemNumber: number;
 
   constructor(
     private router: Router,
@@ -42,7 +41,7 @@ export class MyAccountComponent implements OnInit {
         console.log(res);
         localStorage.setItem('xAuthToken', res.token );
         this.checkSessionService.IsUserLoggedIn.next(true);
-        this.cartService.numberOfCartItem.next(this.cartItemNumber);
+        this.getCartItemNumber();
         this.router.navigate(['/home']);
       },
       error => {
@@ -98,7 +97,7 @@ export class MyAccountComponent implements OnInit {
   getCartItemNumber() {
     this.cartService.getCartItemList().subscribe(
       res => {
-        this.cartItemNumber = res.length;
+        this.cartService.numberOfCartItem.next(res.length);
       },
       error => {
         console.log(error.error);
@@ -106,7 +105,6 @@ export class MyAccountComponent implements OnInit {
     );
   }
   ngOnInit() {
-    this.getCartItemNumber();
   }
 
 

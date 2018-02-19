@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit {
       res => {
         this.cartItemList = res;
         this.cartItemNumber = res.length;
+        this.cartService.numberOfCartItem.next(this.cartItemNumber);
       },
       error => {
         console.log(error.error);

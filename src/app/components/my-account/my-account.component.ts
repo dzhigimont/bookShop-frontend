@@ -38,7 +38,7 @@ export class MyAccountComponent implements OnInit {
         console.log(res);
         localStorage.setItem('xAuthToken', res.token );
         this.loggedIn = true;
-        this.router.navigate(['/home']);
+//         this.router.navigate(['/home']);
         location.reload();
       },
       error => {

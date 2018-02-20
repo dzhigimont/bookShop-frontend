@@ -6,6 +6,8 @@ import {AppConst} from '../../constants/app-const';
 import {BookService} from '../../services/book.service';
 import {CartService} from '../../services/cart.service';
 import {CartItem} from '../../models/cart-item';
+import {CheckSessionService} from '../../services/check-session.service';
+import {LoginService} from '../../services/login.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -23,31 +25,44 @@ export class BookDetailComponent implements OnInit {
   public cartItemNumber: number;
   public cartItemList: CartItem[] = [];
   public dateFetched = false;
+  public loggedIn: boolean;
   constructor(
+    private loginService: LoginService,
     private bookService: BookService,
     private router: Router,
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private cartService: CartService,
-  ) { }
+    private checkSessionService: CheckSessionService
+  ) {
+    this.checkSessionService.IsUserLoggedIn.subscribe( value => {
+      this.loggedIn = value;
+    });
+  }
   onAddToCart() {
-    this.cartService.addItem(this.bookId, this.qty).subscribe(
-      res => {
-       console.log(res);
-       this.addBookSuccess = true;
-       if (this.isBookInCart()) {
-         this.cartService.numberOfCartItem.next(this.cartItemNumber);
-       }else {
-         this.cartService.numberOfCartItem.next(this.cartItemNumber + 1);
-       }
-      },
-      error => {
-        console.log(error);
-        this.notEnoughStock = true;
-      }
-    );
+    console.log(this.loggedIn);
+    if (this.loggedIn) {
+      this.cartService.addItem(this.bookId, this.qty).subscribe(
+        res => {
+         console.log(res);
+         this.addBookSuccess = true;
+         if (this.isBookInCart()) {
+           this.cartService.numberOfCartItem.next(this.cartItemNumber);
+         }else {
+           this.cartService.numberOfCartItem.next(this.cartItemNumber + 1);
+         }
+        },
+        error => {
+          console.log(error);
+          this.notEnoughStock = true;
+        }
+      );
+    }else {
+      this.router.navigate(['/myAccount']);
+    }
   }
   ngOnInit() {
+    this.checkSession();
     this.getCartItemNumber();
     this.route.params.forEach((params: Params) => {
       this.bookId = Number.parseInt(params['id']);
@@ -84,6 +99,18 @@ export class BookDetailComponent implements OnInit {
       }
     }
     return false;
+  }
+  checkSession() {
+    this.loginService.checkSession().subscribe(
+      res => {
+        console.log(res);
+        this.checkSessionService.IsUserLoggedIn.next(true);
+      },
+      error => {
+        console.log(error);
+        this.checkSessionService.IsUserLoggedIn.next(false);
+      }
+    );
   }
 
 

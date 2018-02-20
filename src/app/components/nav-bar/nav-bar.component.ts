@@ -80,7 +80,7 @@ export class NavBarComponent implements OnInit {
   getCartItemNumber() {
     this.cartService.getCartItemList().subscribe(
       res => {
-        this.checkSessionService.IsUserLoggedIn.next(res.length);
+        this.cartService.numberOfCartItem.next(res.length);
       },
       error => {
         console.log(error.error);

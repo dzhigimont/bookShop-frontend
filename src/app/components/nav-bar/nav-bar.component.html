@@ -8,12 +8,12 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarToggler">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+      <ul class="navbar-nav mr-1 mt-2 mt-lg-0 ">
         <li class="nav-item mx-0">
           <a mat-button class="nav-link mx-1" routerLink="/bookList">BOOK</a>
         </li>
       </ul>
-      <form (ngSubmit)="onSearchByTitle()" class="form-inline my-2 my-lg-0" >
+      <form (ngSubmit)="onSearchByTitle()" class="form-inline my-2 my-lg-0 float-left" >
         <input [(ngModel)]="keyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchByTitle">
         <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
       </form>

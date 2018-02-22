@@ -5,6 +5,7 @@ import {UserService} from '../../services/user.service';
 import {AppConst} from '../../constants/app-const';
 import {CheckSessionService} from '../../services/check-session.service';
 import {CartService} from '../../services/cart.service';
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
@@ -32,7 +33,8 @@ export class MyAccountComponent implements OnInit {
     private loginService: LoginService,
     private userService: UserService,
     private checkSessionService: CheckSessionService,
-    private cartService: CartService
+    private cartService: CartService,
+    private location: Location
   ) { }
 
   onLogin() {
@@ -42,7 +44,8 @@ export class MyAccountComponent implements OnInit {
         localStorage.setItem('xAuthToken', res.token );
         this.checkSessionService.IsUserLoggedIn.next(true);
         this.getCartItemNumber();
-        this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
+        this.location.back();
       },
       error => {
         console.log(error);

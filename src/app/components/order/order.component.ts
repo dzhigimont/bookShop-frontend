@@ -138,7 +138,7 @@ export class OrderComponent implements OnInit {
             'order': JSON.stringify(this.order)
           }
         };
-        this.router.navigate(['/shoppingCart/orderSummary'], navigationExtras);
+        this.router.navigate(['/shoppingCart/checkout/orderSummary'], navigationExtras);
       },
       error => {
         console.log(error);

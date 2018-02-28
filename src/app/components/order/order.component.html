@@ -29,12 +29,12 @@
       </div>
     </div>
   </div>
-  <form (ngSubmit)="onSubmit()" method="post" *ngIf="dateFetched&& !cartEmpty">
+  <form (ngSubmit)="onSubmit()" method="post" *ngIf="dateFetched&& !cartEmpty" #checkOutForm="ngForm">
   <div class="row mt-5" >
       <div class="col-sm-4 mx-0">
         <div class="card">
           <div class="card-body">
-            <button mat-raised-button type="submit" class="btn-block mat-primary">
+            <button mat-raised-button type="submit" class="btn-block mat-primary" [disabled]="!checkOutForm.form.valid">
               Place your order</button>
               <p style="font-size: smaller">By placing your order, you agree to Le's Bookstore privacy notice and conditions of use</p>
               <hr/>
@@ -351,7 +351,7 @@
                     </div>
                   </h4>
                   <br/><br/>
-                  <button mat-raised-button type="submit" class="btn-block mat-primary">Place your order</button>
+                  <button mat-raised-button type="submit" class="btn-block mat-primary" [disabled]="!checkOutForm.form.valid">Place your order</button>
                   <p>By placing your order, you agree to Le's Book privacy notice and conditions of use</p>
                 </div>
               </div>

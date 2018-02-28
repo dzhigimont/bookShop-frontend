@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppConst} from '../../constants/app-const';
-import {Router, ActivatedRoute, Params} from '@angular/router';
-import {CheckoutService} from '../../services/checkout.service'
+import {Router, ActivatedRoute} from '@angular/router';
 import {Order} from '../../models/order';
 import {CartItem} from '../../models/cart-item';
 import {CheckSessionService} from '../../services/check-session.service';
@@ -20,7 +19,6 @@ export class OrderSummaryComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private checkoutService: CheckoutService,
     private checkSessionService: CheckSessionService,
     private loginService: LoginService
   ) { }
@@ -28,6 +26,7 @@ export class OrderSummaryComponent implements OnInit {
   ngOnInit() {
     this.checkSession();
     this.route.queryParams.subscribe(params => {
+      if (params['order'] !== undefined ) {
       this.order = JSON.parse(params['order']);
       const deliveryDate = new Date();
       if (this.order.shoppingMethod === 'groundShipping') {
@@ -39,6 +38,9 @@ export class OrderSummaryComponent implements OnInit {
       this.estimatedDeliveryDate = days[deliveryDate.getDay()] + ', ' +
         deliveryDate.getFullYear() + '/' + deliveryDate.getMonth() + '/' + deliveryDate.getDate();
       this.cartItemList = this.order.cartItemList;
+      } else {
+        this.router.navigate(['/home']);
+      }
     });
   }
   checkSession() {

@@ -33,7 +33,7 @@ export class ShoppingCartComponent implements OnInit {
 
   onSelect(book: Book) {
     this.selectedBook = book;
-    this.router.navigate(['/bookDetail', this.selectedBook.id]);
+    this.router.navigate(['/bookList', this.selectedBook.id]);
   }
   onRemoveCartItem(cartItem: CartItem) {
     this.cartService.removeCartItem(cartItem.id).subscribe(

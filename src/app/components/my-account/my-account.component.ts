@@ -44,7 +44,6 @@ export class MyAccountComponent implements OnInit {
         localStorage.setItem('xAuthToken', res.token );
         this.checkSessionService.IsUserLoggedIn.next(true);
         this.getCartItemNumber();
-        // this.router.navigate(['/home']);
         this.location.back();
       },
       error => {

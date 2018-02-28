@@ -57,8 +57,8 @@
                 </div>
                 <div class="col-sm-6">
                   <h4 *ngIf="book.inStockNumber>10" style="color:green;"> In Stock</h4>
-                  <h4 *ngIf="book.inStockNumber<10 && book.inStockNumber>0" style="color:green;">Only <span>{{book.inStockNumber}}</span>In Stock</h4>
-                  <h4 *ngIf="book.inStockNumber==0" style="color:darkred;">Only <span>{{book.inStockNumber}}</span>Unavailable</h4>
+                  <h4 *ngIf="book.inStockNumber<10 && book.inStockNumber > 0" style="color:green;">Only <span>{{book.inStockNumber}}</span>In Stock</h4>
+                  <h4 *ngIf="book.inStockNumber==0" style="color:darkred;">Unavailable</h4>
                   <button mat-raised-button [disabled]="book.inStockNumber==0" (click)="onAddToCart()" class="mat-primary">Add to Cart</button>
               </div>
               </div>

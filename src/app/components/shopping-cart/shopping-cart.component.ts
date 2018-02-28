@@ -48,16 +48,24 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
   onUpdateCartItem(cartItem: CartItem) {
-    this.cartService.updateCartItem(cartItem.id, cartItem.qty).subscribe(
-      res => {
-        console.log(res);
-        this.cartItemUpdated = true;
-        this.getShoppingCart();
-      },
-      error => {
-        console.log(error.error);
-      }
-    );
+    if (cartItem.qty > cartItem.book.inStockNumber) {
+      this.notEnoughStock = true;
+    } else {
+      this.notEnoughStock = false;
+      this.cartService.updateCartItem(cartItem.id, cartItem.qty).subscribe(
+        res => {
+          console.log(res);
+          this.cartItemUpdated = true;
+          this.getShoppingCart();
+          setTimeout(() => {
+            this.cartItemUpdated = false;
+          }, 2000);
+        },
+        error => {
+          console.log(error.error);
+        }
+      );
+    }
   }
   ngOnInit() {
     this.getCartItemList();

@@ -31,14 +31,14 @@
           <a role="button" class="btn btn-secondary ml-2" routerLink="/bookList">Continue Shopping</a>
         </div>
         <div class="col-sm-6" >
-          <a role="button" class="btn btn-secondary float-right mr-2" routerLink="/shoppingCart/checkout" >Check Out</a>
+          <button class="btn btn-secondary float-right mr-2 cursor-pointer" routerLink="/shoppingCart/checkout" [disabled]="notEnoughStock" >Check Out</button>
         </div>
       </div>
       <br/>
       <div *ngIf="cartItemUpdated" class="alert alert-success">
         Cart Item Update Successfully!
       </div>
-      <div *ngIf="notEnoughStock" class="alert alert-warn">
+      <div *ngIf="notEnoughStock" class="alert alert-danger">
         Sorry, some of the products don't have enough stock. Please update product quantity!
       </div>
       <div class="row">
